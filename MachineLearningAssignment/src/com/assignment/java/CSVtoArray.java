@@ -13,6 +13,8 @@ public class CSVtoArray
 	private String filename;
 	private File file1;
 	private Scanner myScanner;
+	private ArrayList<Case> training_set = new ArrayList<Case>();
+	
 	
 	public CSVtoArray(String filename)
 	{
@@ -20,25 +22,30 @@ public class CSVtoArray
 		
 	}
 	
-	void openFile()
+	public void openFile()
 	{
-		setFile1(new File(getFilename()));
+		file1 = new File(filename);
 	}
 	
-	//making an array to store the CSV File
-	List<List<String>> lines = new ArrayList<>();
+	public void closeFile()
+	{
+		myScanner.close();
+	}
 	
-	
-	void convertFile()
+	//method to convert the csv file to an array list. This array list is populated with Cases. Each case is also populated with the 
+	//associated factors e.g. cough, temperature
+	public ArrayList<Case> convertFile()
 	{
 		try 
 		{
 			Scanner inputStream = new Scanner(file1);
-			while(inputStream.hasNext())
+			while(inputStream.hasNextLine())
 			{
-				String cell = inputStream.next();
-				String[] training_set = cell.split(",");
-				lines.add(Arrays.asList(training_set));
+				String line = inputStream.nextLine();
+				String[] factor = line.split(",");
+				
+				getTraining_set().add(new Case(factor[0],factor[1],factor[2],factor[3],factor[4],factor[5]));
+						
 			}
 			inputStream.close();
 		} 
@@ -47,23 +54,11 @@ public class CSVtoArray
 		
 			e.printStackTrace();
 		}
+		return getTraining_set();
 		
 	}
 		
-	void print()
-	{
-		int lineNo = 1;
-        for(List<String> line: lines) {
-            int columnNo = 1;
-            for (String value: line) 
-            {
-                System.out.println("Line " + lineNo + " Column " + columnNo + ": " + value);
-                columnNo++;
-            }
-            lineNo++;
-        }
-	}
-	
+	//getters and setters 
 
 	public String getFilename() {
 		return filename;
@@ -87,6 +82,14 @@ public class CSVtoArray
 
 	public void setMyScanner(Scanner myScanner) {
 		this.myScanner = myScanner;
+	}
+
+	private ArrayList<Case> getTraining_set() {
+		return training_set;
+	}
+
+	private void setTraining_set(ArrayList<Case> training_set) {
+		this.training_set = training_set;
 	}
 
 
