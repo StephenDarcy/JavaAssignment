@@ -2,6 +2,11 @@ package com.assignment.java;
 
 import java.util.ArrayList;
 
+
+//https://stackoverflow.com/questions/10059594/a-simple-explanation-of-naive-bayes-classification
+//Used this website to help me understand Naive Bayes
+
+
 public class NaiveBayes 
 {
 	//all factors
@@ -29,6 +34,11 @@ public class NaiveBayes
 	private int sore_throat_negative = 0;
 	private int danger_zone_negative = 0;
 	
+	//Prior Probabilities
+	private float total_cases = 0;
+	private float total_positive = 0;
+	private float total_negative = 0;
+	
 	
 	
 	//ArrayList to store the training set
@@ -49,13 +59,97 @@ public class NaiveBayes
 		file1.openFile();
 		training_set = file1.convertFile();
 		
-	    
-		
-		
-		
 	}
 	
 	
+	//Method to count negative and positive results that had aches
+	public void AchesCount() 
+	{
+		//https://stackoverflow.com/questions/12809009/accessing-an-object-class-variable-in-arraylist-java
+		//website I used to learn about ArrayList methods
+		
+		for (int i = 0;i<training_set.size();i++)
+		{
+			if (training_set.get(i).getAches() == "yes" && training_set.get(i).getHas_covid() == "yes")
+			{
+				aches_positive++;
+			}
+			else
+			{
+				aches_negative++;
+			}
+		}
+	}
+	
+	//method to count negative and positive results that had a cough
+	public void CoughCount() 
+	{
+		
+		for (int i = 0;i<training_set.size();i++)
+		{
+			if (training_set.get(i).getCough() == "yes" && training_set.get(i).getHas_covid() == "yes")
+			{
+				cough_positive++;
+			}
+			else
+			{
+				cough_negative++;
+			}
+		}
+	}
+	
+	//method to count negative and positive results that had a sore throat
+	public void SoreThroatCount() 
+	{
+		
+		for (int i = 0;i<training_set.size();i++)
+		{
+			if (training_set.get(i).getSore_throat() == "yes" && training_set.get(i).getHas_covid() == "yes")
+			{
+				sore_throat_positive++;
+			}
+			else
+			{
+				sore_throat_negative++;
+			}
+		}
+	}
+	
+	
+	
+	//method to count negative and positive results that had a temperature
+	public void TemperatureCount() 
+	{
+		
+		for (int i = 0;i<training_set.size();i++)
+		{
+			if (training_set.get(i).getTemperature() == "yes" && training_set.get(i).getHas_covid() == "yes")
+			{
+				temperature_positive++;
+			}
+			else
+			{
+				temperature_negative++;
+			}
+		}
+	}
+	
+	//method to count negative and positive results that had travelled to a danger zone
+	public void DangerZoneCount() 
+	{
+		
+		for (int i = 0;i<training_set.size();i++)
+		{
+			if (training_set.get(i).getDanger_zone() == "yes" && training_set.get(i).getHas_covid() == "yes")
+			{
+				danger_zone_positive++;
+			}
+			else
+			{
+				danger_zone_negative++;
+			}
+		}
+	}
 	
 	
 	
