@@ -5,40 +5,27 @@ import java.util.ArrayList;
 
 //https://stackoverflow.com/questions/10059594/a-simple-explanation-of-naive-bayes-classification
 //Used this website to help me understand Naive Bayes
-
+//https://stackoverflow.com/questions/12809009/accessing-an-object-class-variable-in-arraylist-java
+//website I used to learn about ArrayList methods
+//Did not copy any code from these websites
 
 public class NaiveBayes 
 {
 	//all factors
-	private String temperature;
-	private String aches;
-	private String cough;
-	private String sore_throat;
-	private String danger_zone;
-	
-	//counting positives and negative results
-	private int covid_positive = 0;
-	private int covid_negative = 0;
+	private String temperature, aches, cough, sore_throat, danger_zone;
 	
 	//counting factors with positive
-	private int temperature_positive = 0;
-	private int aches_positive = 0;
-	private int cough_positive = 0;
-	private int sore_throat_positive = 0;	
-	private int danger_zone_positive = 0;
-	
+	private float temperature_positive, aches_positive, cough_positive, sore_throat_positive, danger_zone_positive;
+
 	//counting factors with negative
-	private int temperature_negative = 0;
-	private int aches_negative = 0;
-	private int cough_negative = 0;
-	private int sore_throat_negative = 0;
-	private int danger_zone_negative = 0;
-	
+	private float temperature_negative, aches_negative, cough_negative, sore_throat_negative, danger_zone_negative;
+
 	//Prior Probabilities
-	private float total_cases = 0;
-	private float total_positive = 0;
-	private float total_negative = 0;
+	private float total_cases, total_positive, total_negative;
 	
+	//For calculating results
+	private float probability_overall, negative_probability, positive_probability, negative_total, positive_total, total;
+
 	
 	
 	//ArrayList to store the training set
@@ -59,24 +46,70 @@ public class NaiveBayes
 		file1.openFile();
 		training_set = file1.convertFile();
 		
+		TotalAll();
+		
+	}
+	
+	public float Classifier()
+	{
+		
+		positive_total = (temperature_positive/total_positive)*(aches_positive/total_positive)*(sore_throat_positive/total_positive)*
+				(cough_positive/total_positive)*(danger_zone_positive/total_positive)*(total_positive/total_cases);
+		negative_total = (temperature_negative/total_negative)*(aches_negative/total_negative)*(sore_throat_negative/total_negative)*
+				(cough_negative/total_negative)*(danger_zone_negative/total_negative)*(total_negative/total_cases);
+		total = positive_total + negative_total;
+		
+		positive_probability = (positive_total/total)*100;
+		
+		
+	}
+	
+	public void TotalAll()
+	{
+		setTotal_cases(training_set.size());
+		
+		CovidCount();
+		AchesCount();
+		CoughCount();
+		SoreThroatCount();
+		TemperatureCount();
+		DangerZoneCount();
+	}
+	
+	public void CovidCount()
+	{
+		setTotal_positive(0);
+		setTotal_negative(0);
+		
+		for (int i = 0;i<training_set.size();i++)
+		{
+			if (training_set.get(i).getHas_covid() == "yes")
+			{
+				setTotal_positive(getTotal_positive() + 1);
+			}
+			else
+			{
+				setTotal_negative(getTotal_negative() + 1);
+			}
+		}
 	}
 	
 	
 	//Method to count negative and positive results that had aches
 	public void AchesCount() 
 	{
-		//https://stackoverflow.com/questions/12809009/accessing-an-object-class-variable-in-arraylist-java
-		//website I used to learn about ArrayList methods
+		setAches_positive(0);
+		setAches_negative(0);
 		
 		for (int i = 0;i<training_set.size();i++)
 		{
 			if (training_set.get(i).getAches() == "yes" && training_set.get(i).getHas_covid() == "yes")
 			{
-				aches_positive++;
+				setAches_positive(getAches_positive() + 1);
 			}
 			else
 			{
-				aches_negative++;
+				setAches_negative(getAches_negative() + 1);
 			}
 		}
 	}
@@ -84,16 +117,18 @@ public class NaiveBayes
 	//method to count negative and positive results that had a cough
 	public void CoughCount() 
 	{
+		setCough_positive(0);
+		setCough_negative(0);
 		
 		for (int i = 0;i<training_set.size();i++)
 		{
 			if (training_set.get(i).getCough() == "yes" && training_set.get(i).getHas_covid() == "yes")
 			{
-				cough_positive++;
+				setCough_positive(getCough_positive() + 1);
 			}
 			else
 			{
-				cough_negative++;
+				setCough_negative(getCough_negative() + 1);
 			}
 		}
 	}
@@ -101,16 +136,18 @@ public class NaiveBayes
 	//method to count negative and positive results that had a sore throat
 	public void SoreThroatCount() 
 	{
+		setSore_throat_positive(0);
+		setSore_throat_negative(0);
 		
 		for (int i = 0;i<training_set.size();i++)
 		{
 			if (training_set.get(i).getSore_throat() == "yes" && training_set.get(i).getHas_covid() == "yes")
 			{
-				sore_throat_positive++;
+				setSore_throat_positive(getSore_throat_positive() + 1);
 			}
 			else
 			{
-				sore_throat_negative++;
+				setSore_throat_negative(getSore_throat_negative() + 1);
 			}
 		}
 	}
@@ -120,16 +157,18 @@ public class NaiveBayes
 	//method to count negative and positive results that had a temperature
 	public void TemperatureCount() 
 	{
+		setTemperature_negative(0);
+		setTemperature_positive(0);
 		
 		for (int i = 0;i<training_set.size();i++)
 		{
 			if (training_set.get(i).getTemperature() == "yes" && training_set.get(i).getHas_covid() == "yes")
 			{
-				temperature_positive++;
+				setTemperature_positive(getTemperature_positive() + 1);
 			}
 			else
 			{
-				temperature_negative++;
+				setTemperature_negative(getTemperature_negative() + 1);
 			}
 		}
 	}
@@ -137,16 +176,18 @@ public class NaiveBayes
 	//method to count negative and positive results that had travelled to a danger zone
 	public void DangerZoneCount() 
 	{
+		setDanger_zone_positive(0);
+		setDanger_zone_negative(0);
 		
 		for (int i = 0;i<training_set.size();i++)
 		{
 			if (training_set.get(i).getDanger_zone() == "yes" && training_set.get(i).getHas_covid() == "yes")
 			{
-				danger_zone_positive++;
+				setDanger_zone_positive(getDanger_zone_positive() + 1);
 			}
 			else
 			{
-				danger_zone_negative++;
+				setDanger_zone_negative(getDanger_zone_negative() + 1);
 			}
 		}
 	}
@@ -193,6 +234,136 @@ public class NaiveBayes
 
 	private void setDanger_zone(String danger_zone) {
 		this.danger_zone = danger_zone;
+	}
+
+
+	public float getTemperature_positive() {
+		return temperature_positive;
+	}
+
+
+	public void setTemperature_positive(float temperature_positive) {
+		this.temperature_positive = temperature_positive;
+	}
+
+
+	public float getAches_positive() {
+		return aches_positive;
+	}
+
+
+	public void setAches_positive(float aches_positive) {
+		this.aches_positive = aches_positive;
+	}
+
+
+	public float getCough_positive() {
+		return cough_positive;
+	}
+
+
+	public void setCough_positive(float cough_positive) {
+		this.cough_positive = cough_positive;
+	}
+
+
+	public float getSore_throat_positive() {
+		return sore_throat_positive;
+	}
+
+
+	public void setSore_throat_positive(float sore_throat_positive) {
+		this.sore_throat_positive = sore_throat_positive;
+	}
+
+
+	public float getDanger_zone_positive() {
+		return danger_zone_positive;
+	}
+
+
+	public void setDanger_zone_positive(float danger_zone_positive) {
+		this.danger_zone_positive = danger_zone_positive;
+	}
+
+
+	public float getTemperature_negative() {
+		return temperature_negative;
+	}
+
+
+	public void setTemperature_negative(float temperature_negative) {
+		this.temperature_negative = temperature_negative;
+	}
+
+
+	public float getAches_negative() {
+		return aches_negative;
+	}
+
+
+	public void setAches_negative(float aches_negative) {
+		this.aches_negative = aches_negative;
+	}
+
+
+	public float getCough_negative() {
+		return cough_negative;
+	}
+
+
+	public void setCough_negative(float cough_negative) {
+		this.cough_negative = cough_negative;
+	}
+
+
+	public float getTotal_cases() {
+		return total_cases;
+	}
+
+
+	public void setTotal_cases(float total_cases) {
+		this.total_cases = total_cases;
+	}
+
+
+	public float getTotal_positive() {
+		return total_positive;
+	}
+
+
+	public void setTotal_positive(float total_positive) {
+		this.total_positive = total_positive;
+	}
+
+
+	public float getTotal_negative() {
+		return total_negative;
+	}
+
+
+	public void setTotal_negative(float total_negative) {
+		this.total_negative = total_negative;
+	}
+
+
+	public float getSore_throat_negative() {
+		return sore_throat_negative;
+	}
+
+
+	public void setSore_throat_negative(float sore_throat_negative) {
+		this.sore_throat_negative = sore_throat_negative;
+	}
+
+
+	public float getDanger_zone_negative() {
+		return danger_zone_negative;
+	}
+
+
+	public void setDanger_zone_negative(float danger_zone_negative) {
+		this.danger_zone_negative = danger_zone_negative;
 	}
 	
 	
