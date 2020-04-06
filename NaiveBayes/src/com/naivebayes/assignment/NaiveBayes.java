@@ -1,6 +1,8 @@
-package com.assignment.java;
+package com.naivebayes.assignment;
 
 import java.util.ArrayList;
+
+
 
 
 //https://stackoverflow.com/questions/10059594/a-simple-explanation-of-naive-bayes-classification
@@ -57,9 +59,9 @@ public class NaiveBayes
 				(cough_positive/total_positive)*(danger_zone_positive/total_positive)*(total_positive/total_cases);
 		negative_total = (temperature_negative/total_negative)*(aches_negative/total_negative)*(sore_throat_negative/total_negative)*
 				(cough_negative/total_negative)*(danger_zone_negative/total_negative)*(total_negative/total_cases);
-		total = positive_total + negative_total;
 		
-		return positive_probability = (positive_total/total)*100;
+		
+		return setPositive_probability((positive_total/positive_total+negative_total)*100);
 		
 		
 	}
@@ -83,7 +85,8 @@ public class NaiveBayes
 		
 		for (int i = 0;i<training_set.size();i++)
 		{
-			if (training_set.get(i).getHas_covid().contains("yes"))
+			boolean covid_true = training_set.get(i).getHas_covid().contains("yes");
+			if (covid_true)
 			{
 				setTotal_positive(getTotal_positive() + 1);
 			}
@@ -103,7 +106,10 @@ public class NaiveBayes
 		
 		for (int i = 0;i<training_set.size();i++)
 		{
-			if (training_set.get(i).getAches() == "yes" && training_set.get(i).getHas_covid() == "yes")
+			boolean covid_true_aches = training_set.get(i).getHas_covid().contains("yes");
+			boolean aches_true = training_set.get(i).getAches().contains(aches);
+			
+			if (covid_true_aches && aches_true)
 			{
 				setAches_positive(getAches_positive() + 1);
 			}
@@ -122,7 +128,10 @@ public class NaiveBayes
 		
 		for (int i = 0;i<training_set.size();i++)
 		{
-			if (training_set.get(i).getCough() == "yes" && training_set.get(i).getHas_covid() == "yes")
+			boolean covid_true_cough = training_set.get(i).getHas_covid().contains("yes");
+			boolean cough_true = training_set.get(i).getCough().contains(cough);
+			
+			if (covid_true_cough && cough_true)
 			{
 				setCough_positive(getCough_positive() + 1);
 			}
@@ -141,7 +150,10 @@ public class NaiveBayes
 		
 		for (int i = 0;i<training_set.size();i++)
 		{
-			if (training_set.get(i).getSore_throat() == "yes" && training_set.get(i).getHas_covid() == "yes")
+			boolean sore_throat_true = training_set.get(i).getSore_throat().contains(cough);
+			boolean covid_true_sore_throat = training_set.get(i).getHas_covid().contains("yes");
+			
+			if (sore_throat_true && covid_true_sore_throat)
 			{
 				setSore_throat_positive(getSore_throat_positive() + 1);
 			}
@@ -162,7 +174,10 @@ public class NaiveBayes
 		
 		for (int i = 0;i<training_set.size();i++)
 		{
-			if (training_set.get(i).getTemperature() == "yes" && training_set.get(i).getHas_covid() == "yes")
+			boolean covid_true_temperature = training_set.get(i).getHas_covid().contains("yes");
+			boolean temperature_true = training_set.get(i).getTemperature().contains(temperature);
+			
+			if (covid_true_temperature && temperature_true)
 			{
 				setTemperature_positive(getTemperature_positive() + 1);
 			}
@@ -181,7 +196,10 @@ public class NaiveBayes
 		
 		for (int i = 0;i<training_set.size();i++)
 		{
-			if (training_set.get(i).getDanger_zone() == "yes" && training_set.get(i).getHas_covid() == "yes")
+			boolean covid_true_danger_zone = training_set.get(i).getHas_covid().contains("yes");
+			boolean danger_zone_true = training_set.get(i).getDanger_zone().contains(danger_zone);
+			
+			if (covid_true_danger_zone && danger_zone_true)
 			{
 				setDanger_zone_positive(getDanger_zone_positive() + 1);
 			}
@@ -365,9 +383,35 @@ public class NaiveBayes
 	public void setDanger_zone_negative(float danger_zone_negative) {
 		this.danger_zone_negative = danger_zone_negative;
 	}
+
+	public float getProbability_overall() {
+		return probability_overall;
+	}
+
+	public void setProbability_overall(float probability_overall) {
+		this.probability_overall = probability_overall;
+	}
+
+	public float getNegative_probability() {
+		return negative_probability;
+	}
+
+	public void setNegative_probability(float negative_probability) {
+		this.negative_probability = negative_probability;
+	}
+
+	public float getPositive_probability() {
+		return positive_probability;
+	}
+
+	public float setPositive_probability(float positive_probability) {
+		this.positive_probability = positive_probability;
+		return positive_probability;
+	}
 	
 	
 	
 	
 	
 }
+
