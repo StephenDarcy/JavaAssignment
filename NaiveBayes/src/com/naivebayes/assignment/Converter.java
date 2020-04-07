@@ -5,15 +5,14 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class CSVtoArray 
+public class Converter 
 {
 	private String filename;
 	private File file1;
 	private Scanner myScanner;
 	private ArrayList<Case> training_set = new ArrayList<Case>();
-	
-	
-	public CSVtoArray(String filename)
+		
+	public Converter(String filename)
 	{
 		this.setFilename(filename); 
 		
@@ -23,40 +22,31 @@ public class CSVtoArray
 	{
 		file1 = new File(filename);
 	}
-	
-	public void closeFile()
-	{
-		myScanner.close();
-	}
-	
+		
 	//method to convert the csv file to an array list. This array list is populated with Cases. Each case is also populated with the 
 	//associated factors e.g. cough, temperature
 	public ArrayList<Case> convertFile()
 	{
 		try 
 		{
-			Scanner inputStream = new Scanner(file1);
-			while(inputStream.hasNextLine())
+			Scanner myScanner = new Scanner(file1);
+			while(myScanner.hasNextLine())
 			{
-				String line = inputStream.nextLine();
+				String line = myScanner.nextLine();
 				String[] factor = line.split(",");
 				
-				getTraining_set().add(new Case(factor[0],factor[1],factor[2],factor[3],factor[4],factor[5]));
-						
+				getTraining_set().add(new Case(factor[0],factor[1],factor[2],factor[3],factor[4],factor[5]));		
 			}
-			inputStream.close();
+			myScanner.close();
 		} 
 		catch (FileNotFoundException e) 
-		{
-		
+		{		
 			e.printStackTrace();
 		}
 		return getTraining_set();
-		
 	}
 		
 	//getters and setters 
-
 	public String getFilename() {
 		return filename;
 	}
@@ -84,10 +74,4 @@ public class CSVtoArray
 	private ArrayList<Case> getTraining_set() {
 		return training_set;
 	}
-
-	private void setTraining_set(ArrayList<Case> training_set) {
-		this.training_set = training_set;
-	}
-
-
 }

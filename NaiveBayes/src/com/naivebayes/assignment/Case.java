@@ -20,6 +20,16 @@ public class Case
 		
 	}
 	
+	//other constructor for a user inputted case
+	public Case (String temperature, String aches, String cough, String sore_throat, String danger_zone)
+	{
+		this.setAches(aches);
+		this.setTemperature(temperature);
+		this.setCough(cough);
+		this.setSore_throat(sore_throat);
+		this.setDanger_zone(danger_zone);		
+	}
+	
 	//getters and setters
 	
 	public String getTemperature() {

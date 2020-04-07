@@ -2,9 +2,6 @@ package com.naivebayes.assignment;
 
 import java.util.ArrayList;
 
-
-
-
 //https://stackoverflow.com/questions/10059594/a-simple-explanation-of-naive-bayes-classification
 //Used this website to help me understand Naive Bayes
 //https://stackoverflow.com/questions/12809009/accessing-an-object-class-variable-in-arraylist-java
@@ -26,47 +23,43 @@ public class NaiveBayes
 	private float total_cases, total_positive, total_negative;
 	
 	//For calculating results
-	private float probability_overall, negative_probability, positive_probability, negative_total, positive_total, total;
-
-	
+	private float probability_overall, negative_probability, positive_probability, negative_total, positive_total;
 	
 	//ArrayList to store the training set
 	ArrayList<Case> training_set = new ArrayList<Case>();
 
-	public NaiveBayes(String temperature, String aches, String cough, String sore_throat, String danger_zone)
+	public NaiveBayes(Case input, Converter file)
 	{
+		this.setTemperature(input.getTemperature());
+		this.setAches(input.getAches());
+		this.setCough(input.getCough());
+		this.setDanger_zone(input.getDanger_zone());
+		this.setSore_throat(input.getSore_throat());
 		
-		this.setTemperature(temperature);
-		this.setAches(aches);
-		this.setCough(cough);
-		this.setDanger_zone(danger_zone);
-		this.setSore_throat(sore_throat);
+		training_set = file.convertFile();
 		
-		
-		//opening the file and adding to training set using CSVtoArray class
-		CSVtoArray file1 = new CSVtoArray("MLdata.csv");
-		file1.openFile();
-		training_set = file1.convertFile();
-		
-		TotalAll();
-		
+		Calculate();
 	}
 	
-	public float Classifier()
+	public String toString()
+	{
+		String covid_chance = "Probability of testing positive for COVID-19: " + getPositive_probability();
+		return covid_chance;
+	}
+	
+	public void Classifier()
 	{
 		
 		positive_total = (temperature_positive/total_positive)*(aches_positive/total_positive)*(sore_throat_positive/total_positive)*
 				(cough_positive/total_positive)*(danger_zone_positive/total_positive)*(total_positive/total_cases);
+		
 		negative_total = (temperature_negative/total_negative)*(aches_negative/total_negative)*(sore_throat_negative/total_negative)*
 				(cough_negative/total_negative)*(danger_zone_negative/total_negative)*(total_negative/total_cases);
 		
-		
-		return setPositive_probability((positive_total/positive_total+negative_total)*100);
-		
-		
+		setPositive_probability((positive_total/(positive_total+negative_total))*100);
 	}
 	
-	public void TotalAll()
+	public void Calculate()
 	{
 		setTotal_cases(training_set.size());
 		
@@ -76,6 +69,8 @@ public class NaiveBayes
 		SoreThroatCount();
 		TemperatureCount();
 		DangerZoneCount();
+		
+		Classifier();
 	}
 	
 	public void CovidCount()
@@ -108,12 +103,13 @@ public class NaiveBayes
 		{
 			boolean covid_true_aches = training_set.get(i).getHas_covid().contains("yes");
 			boolean aches_true = training_set.get(i).getAches().contains(aches);
+			boolean covid_false_aches = training_set.get(i).getHas_covid().contains("no");
 			
 			if (covid_true_aches && aches_true)
 			{
 				setAches_positive(getAches_positive() + 1);
 			}
-			else
+			else if(aches_true && covid_false_aches)
 			{
 				setAches_negative(getAches_negative() + 1);
 			}
@@ -130,12 +126,13 @@ public class NaiveBayes
 		{
 			boolean covid_true_cough = training_set.get(i).getHas_covid().contains("yes");
 			boolean cough_true = training_set.get(i).getCough().contains(cough);
+			boolean covid_false_cough = training_set.get(i).getHas_covid().contains("no");
 			
 			if (covid_true_cough && cough_true)
 			{
 				setCough_positive(getCough_positive() + 1);
 			}
-			else
+			else if(covid_false_cough && cough_true)
 			{
 				setCough_negative(getCough_negative() + 1);
 			}
@@ -150,21 +147,20 @@ public class NaiveBayes
 		
 		for (int i = 0;i<training_set.size();i++)
 		{
-			boolean sore_throat_true = training_set.get(i).getSore_throat().contains(cough);
+			boolean sore_throat_true = training_set.get(i).getSore_throat().contains(sore_throat);
 			boolean covid_true_sore_throat = training_set.get(i).getHas_covid().contains("yes");
+			boolean covid_false_sore_throat = training_set.get(i).getHas_covid().contains("no");
 			
 			if (sore_throat_true && covid_true_sore_throat)
 			{
 				setSore_throat_positive(getSore_throat_positive() + 1);
 			}
-			else
+			else if(covid_false_sore_throat && sore_throat_true)
 			{
 				setSore_throat_negative(getSore_throat_negative() + 1);
 			}
 		}
 	}
-	
-	
 	
 	//method to count negative and positive results that had a temperature
 	public void TemperatureCount() 
@@ -176,12 +172,13 @@ public class NaiveBayes
 		{
 			boolean covid_true_temperature = training_set.get(i).getHas_covid().contains("yes");
 			boolean temperature_true = training_set.get(i).getTemperature().contains(temperature);
+			boolean covid_false_temperature = training_set.get(i).getHas_covid().contains("no");
 			
 			if (covid_true_temperature && temperature_true)
 			{
 				setTemperature_positive(getTemperature_positive() + 1);
 			}
-			else
+			else if(covid_false_temperature && temperature_true)
 			{
 				setTemperature_negative(getTemperature_negative() + 1);
 			}
@@ -198,56 +195,34 @@ public class NaiveBayes
 		{
 			boolean covid_true_danger_zone = training_set.get(i).getHas_covid().contains("yes");
 			boolean danger_zone_true = training_set.get(i).getDanger_zone().contains(danger_zone);
+			boolean covid_false_danger_zone = training_set.get(i).getHas_covid().contains("no");
 			
 			if (covid_true_danger_zone && danger_zone_true)
 			{
 				setDanger_zone_positive(getDanger_zone_positive() + 1);
 			}
-			else
+			else if(covid_false_danger_zone && danger_zone_true)
 			{
 				setDanger_zone_negative(getDanger_zone_negative() + 1);
 			}
 		}
 	}
 	
-	
-	
 	//getters and setters
-
-	private String getTemperature() {
-		return temperature;
-	}
-
 	private void setTemperature(String temperature) {
 		this.temperature = temperature;
-	}
-
-	private String getAches() {
-		return aches;
 	}
 
 	private void setAches(String aches) {
 		this.aches = aches;
 	}
 
-	private String getCough() {
-		return cough;
-	}
-
 	private void setCough(String cough) {
 		this.cough = cough;
 	}
 
-	private String getSore_throat() {
-		return sore_throat;
-	}
-
 	private void setSore_throat(String sore_throat) {
 		this.sore_throat = sore_throat;
-	}
-
-	private String getDanger_zone() {
-		return danger_zone;
 	}
 
 	private void setDanger_zone(String danger_zone) {
@@ -408,10 +383,4 @@ public class NaiveBayes
 		this.positive_probability = positive_probability;
 		return positive_probability;
 	}
-	
-	
-	
-	
-	
 }
-
