@@ -25,6 +25,9 @@ public class NaiveBayes
 	//For calculating results
 	private float probability_overall, negative_probability, positive_probability, negative_total, positive_total;
 	
+	//final result after rounding
+	private int finalValue;
+	
 	//ArrayList to store the training set
 	ArrayList<Case> training_set = new ArrayList<Case>();
 
@@ -36,6 +39,7 @@ public class NaiveBayes
 		this.setDanger_zone(input.getDanger_zone());
 		this.setSore_throat(input.getSore_throat());
 		
+		file.openFile();
 		training_set = file.convertFile();
 		
 		Calculate();
@@ -57,6 +61,10 @@ public class NaiveBayes
 				(cough_negative/total_negative)*(danger_zone_negative/total_negative)*(total_negative/total_cases);
 		
 		setPositive_probability((positive_total/(positive_total+negative_total))*100);
+		
+		//changing to a integer that is rounded
+		setFinalValue(Math.round(getPositive_probability()));
+		
 	}
 	
 	public void Calculate()
@@ -382,5 +390,13 @@ public class NaiveBayes
 	public float setPositive_probability(float positive_probability) {
 		this.positive_probability = positive_probability;
 		return positive_probability;
+	}
+
+	public int getFinalValue() {
+		return finalValue;
+	}
+
+	public void setFinalValue(int finalValue) {
+		this.finalValue = finalValue;
 	}
 }
