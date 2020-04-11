@@ -7,7 +7,7 @@ public class Control {
 		Converter file = new Converter("MLdata.csv");
 		file.openFile();
 		
-		Case newinput = new Case("hot","yes","yes","yes","yes");
+		Case newinput = new Case("cold","yes","yes","yes","yes");
 		
 		NaiveBayes test = new NaiveBayes(newinput,file);
 		System.out.println(test);
