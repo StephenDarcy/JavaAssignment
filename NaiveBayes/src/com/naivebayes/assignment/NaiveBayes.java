@@ -31,7 +31,8 @@ public class NaiveBayes
 	//ArrayList to store the training set
 	ArrayList<Case> training_set = new ArrayList<Case>();
 
-	public NaiveBayes(Case input, Converter file)
+	//constructor for naivebayes class with no knowledge of case is positive or not
+	public NaiveBayes(Case input, Dataset file)
 	{
 		this.setTemperature(input.getTemperature());
 		this.setAches(input.getAches());
@@ -44,6 +45,7 @@ public class NaiveBayes
 		
 		Calculate();
 	}
+	
 	
 	public String toString()
 	{

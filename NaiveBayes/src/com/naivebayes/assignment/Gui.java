@@ -19,7 +19,7 @@ import javax.swing.border.EmptyBorder;
 public class Gui extends JFrame {
 	
 	//creating a default file 'MLdata' until the user selects a different one
-	Converter default_file = new Converter("MLdata.csv");
+	Dataset default_file = new Dataset("MLdata.csv");
 
 	private JPanel contentPane;
 
@@ -343,7 +343,7 @@ public class Gui extends JFrame {
 						complete = false;
 					}
 					
-					//passing the user inputted clase to the naive bayes class
+					//passing the user inputed class to the naive bayes class
 					
 					NaiveBayes UserCase = new NaiveBayes(UserInputCase,default_file);
 					

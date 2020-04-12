@@ -5,14 +5,14 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Converter 
+public class Dataset
 {
 	private String filename;
 	private File file1;
 	private Scanner myScanner;
 	private ArrayList<Case> training_set = new ArrayList<Case>();
 		
-	public Converter(String filename)
+	public Dataset(String filename)
 	{
 		this.setFilename(filename); 
 		
