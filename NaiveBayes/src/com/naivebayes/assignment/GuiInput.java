@@ -16,33 +16,14 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.border.EmptyBorder;
 
-public class Gui extends JFrame {
+public class GuiInput extends JFrame {
 	
 	//creating a default file 'MLdata' until the user selects a different one
 	Dataset default_file = new Dataset("MLdata.csv");
-
 	private JPanel contentPane;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Gui frame = new Gui();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public Gui() {
+	
+	public GuiInput() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(500, 500, 1000, 1000);
 		contentPane = new JPanel();
@@ -57,8 +38,8 @@ public class Gui extends JFrame {
 		
 		JLabel title_label = new JLabel("COVID-19 Probability Tool:  ");
 		GridBagConstraints gbc_title_label = new GridBagConstraints();
-		gbc_title_label.insets = new Insets(0, 0, 5, 0);
-		gbc_title_label.gridx = 2;
+		gbc_title_label.insets = new Insets(0, 0, 5, 5);
+		gbc_title_label.gridx = 1;
 		gbc_title_label.gridy = 0;
 		contentPane.add(title_label, gbc_title_label);
 		
@@ -254,6 +235,11 @@ public class Gui extends JFrame {
 		DangerZoneGroup.add(danger_no_radio);
 		
 		JButton check_prob_button = new JButton("Find Probability");
+		GridBagConstraints gbc_check_prob_button = new GridBagConstraints();
+		gbc_check_prob_button.insets = new Insets(0, 0, 0, 5);
+		gbc_check_prob_button.gridx = 1;
+		gbc_check_prob_button.gridy = 13;
+		contentPane.add(check_prob_button, gbc_check_prob_button);
 		
 		check_prob_button.addMouseListener(new MouseAdapter() 
 		{
@@ -355,11 +341,7 @@ public class Gui extends JFrame {
 			}
 		});
 		
-		GridBagConstraints gbc_check_prob_button = new GridBagConstraints();
-		gbc_check_prob_button.insets = new Insets(0, 0, 0, 5);
-		gbc_check_prob_button.gridx = 1;
-		gbc_check_prob_button.gridy = 13;
-		contentPane.add(check_prob_button, gbc_check_prob_button);
+		setVisible(true);
 	}
 
 }
