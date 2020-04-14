@@ -42,27 +42,20 @@ public class GuiHome extends JFrame {
 	 */
 	public GuiHome() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 800, 500);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_contentPane.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_contentPane.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		contentPane.setLayout(gbl_contentPane);
+		contentPane.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("COVID-19 Prediction Tool  ");
+		lblNewLabel.setBounds(451, 47, 287, 30);
 		lblNewLabel.setForeground(new Color(0, 153, 255));
 		lblNewLabel.setFont(new Font("Times New Roman", Font.ITALIC, 25));
-		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel.gridx = 4;
-		gbc_lblNewLabel.gridy = 1;
-		contentPane.add(lblNewLabel, gbc_lblNewLabel);
+		contentPane.add(lblNewLabel);
 		
 		JButton enterSymptomsButton = new JButton("Enter Symptoms");
+		enterSymptomsButton.setBounds(454, 100, 177, 33);
 		enterSymptomsButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) 
@@ -74,37 +67,26 @@ public class GuiHome extends JFrame {
 			}
 		});
 		enterSymptomsButton.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton.gridx = 4;
-		gbc_btnNewButton.gridy = 3;
-		contentPane.add(enterSymptomsButton, gbc_btnNewButton);
+		contentPane.add(enterSymptomsButton);
 		
 		JButton btnNewButton_1 = new JButton("Change File");
+		btnNewButton_1.setBounds(475, 138, 135, 33);
 		btnNewButton_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 			}
 		});
 		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
-		gbc_btnNewButton_1.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton_1.gridx = 4;
-		gbc_btnNewButton_1.gridy = 4;
-		contentPane.add(btnNewButton_1, gbc_btnNewButton_1);
+		contentPane.add(btnNewButton_1);
 		
 		JButton btnTestAccuracy = new JButton("Test Accuracy");
+		btnTestAccuracy.setBounds(465, 356, 155, 33);
 		btnTestAccuracy.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 			}
 		});
 		btnTestAccuracy.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		GridBagConstraints gbc_btnTestAccuracy = new GridBagConstraints();
-		gbc_btnTestAccuracy.insets = new Insets(0, 0, 5, 5);
-		gbc_btnTestAccuracy.gridx = 4;
-		gbc_btnTestAccuracy.gridy = 5;
-		contentPane.add(btnTestAccuracy, gbc_btnTestAccuracy);
+		contentPane.add(btnTestAccuracy);
 	}
-
 }
