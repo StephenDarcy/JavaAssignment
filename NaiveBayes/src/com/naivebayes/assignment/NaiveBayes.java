@@ -46,6 +46,21 @@ public class NaiveBayes
 		Calculate();
 	}
 	
+	//constructor for naive bayes where an array list is passed instead of a dataset object
+	public NaiveBayes(Case input, ArrayList<Case> training_set_passed)
+	{
+		this.setTemperature(input.getTemperature());
+		this.setAches(input.getAches());
+		this.setCough(input.getCough());
+		this.setDanger_zone(input.getDanger_zone());
+		this.setSore_throat(input.getSore_throat());
+		
+		training_set = training_set_passed;
+		
+		Calculate();
+		
+	}
+	
 	
 	public String toString()
 	{
