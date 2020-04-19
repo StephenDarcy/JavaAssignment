@@ -1,8 +1,5 @@
 package com.naivebayes.assignment;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -12,6 +9,7 @@ import javax.swing.JLabel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+@SuppressWarnings("serial")
 public class GuiFile extends JFrame {
 
 	private JPanel contentPane  = new JPanel();;
@@ -24,11 +22,10 @@ public class GuiFile extends JFrame {
 	JLabel default_label = new JLabel("76 Cases");
 	JLabel large_label = new JLabel("Over 150 Cases");
 	
-	static String current_file = "MLdata.csv";
+	private String current_file;
 	
 	public GuiFile() 
 	{
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -41,7 +38,8 @@ public class GuiFile extends JFrame {
 			{
 				if (e.getSource() == small_button)
 				{
-					current_file = "small.csv";
+					Control.setFile_in_use("small.csv");
+					dispose();
 				}
 			}
 		});
@@ -57,7 +55,8 @@ public class GuiFile extends JFrame {
 			{
 				if(e.getSource() == default_button)
 				{
-					current_file = "MLdata.csv";
+					Control.setFile_in_use("MLdata.csv");
+					dispose();
 				}
 			}
 		});
@@ -72,8 +71,9 @@ public class GuiFile extends JFrame {
 			public void mouseClicked(MouseEvent e) 
 			{
 				if (e.getSource() == large_button)
-				{
-					current_file = "big.csv";
+				{  
+					Control.setFile_in_use("big.csv");
+					dispose();
 				}
 			}
 		});
@@ -98,5 +98,19 @@ public class GuiFile extends JFrame {
 		contentPane.add(large_label);
 		
 		setVisible(true);
+	}
+	
+	public String returnFile()
+	{
+		return getCurrent_file();
+	}
+	
+
+	public String getCurrent_file() {
+		return this.current_file;
+	}
+
+	public void setCurrent_file(String passed_file) {
+		this.current_file = passed_file;
 	}
 }

@@ -40,7 +40,7 @@ public class NaiveBayes
 		this.setDanger_zone(input.getDanger_zone());
 		this.setSore_throat(input.getSore_throat());
 		
-		file.openFile();
+		
 		training_set = file.convertFile();
 		
 		Calculate();

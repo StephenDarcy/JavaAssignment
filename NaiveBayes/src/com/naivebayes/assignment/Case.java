@@ -1,7 +1,17 @@
 package com.naivebayes.assignment;
 
+/********************************************************************************************************************************************
+ * Naive Bayes ML Assignment																												*							
+ * Class: Case																																*
+ * Description: This class basically defines what attributes a case can contain. It has two contsructors one for inputting a user with 		*
+ * or without covid 19 and one that does not know yet e.g. the user inputted case															*
+ * 																																			*																																* 
+ ********************************************************************************************************************************************/
+
 public class Case 
 {
+	
+	//creating variables a case object has
 	private String temperature;
 	private String aches;
 	private String cough;
@@ -9,6 +19,7 @@ public class Case
 	private String danger_zone;
 	private String has_covid;
 	
+	//constructir for case with a covid result
 	public Case (String temperature, String aches, String cough, String sore_throat, String danger_zone, String has_covid)
 	{
 		this.setAches(aches);
@@ -30,8 +41,8 @@ public class Case
 		this.setDanger_zone(danger_zone);		
 	}
 	
-	//getters and setters
 	
+	//getters and setters
 	public String getTemperature() {
 		return temperature;
 	}

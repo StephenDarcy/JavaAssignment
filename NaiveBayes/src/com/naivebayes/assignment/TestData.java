@@ -14,7 +14,6 @@ public class TestData {
 	public TestData(Dataset passedDataset)
 	{
 		//converting passed dataset to a array list of cases
-		passedDataset.openFile();
 		passedSet = passedDataset.convertFile();
 	}
 	

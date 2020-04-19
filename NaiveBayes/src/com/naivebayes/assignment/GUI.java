@@ -18,10 +18,11 @@ import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+@SuppressWarnings("serial")
 public class GUI extends JFrame {
-	
+
 	//creating a default file
-	Dataset current = new Dataset(current_file);
+	
 	
 	//creating a file chooser
 	JFileChooser filechooser = new JFileChooser();
@@ -73,7 +74,6 @@ public class GUI extends JFrame {
 	
 	public GUI() 
 	{
-		this.setFilename(filename);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 779, 741);
@@ -112,6 +112,7 @@ public class GUI extends JFrame {
 			{
 				if (e.getSource() == select_dataset_button)
 				{
+					@SuppressWarnings("unused")
 					GuiFile gf = new GuiFile();
 				}
 			}
@@ -278,10 +279,12 @@ public class GUI extends JFrame {
 		setVisible(true);
 	}
 	
+
 	void testData()
 	{
 		float ans = 0;
-		TestData accuracyCheck = new TestData(current_file);
+		Dataset testDataset = new Dataset(Control.getFile_in_use());
+		TestData accuracyCheck = new TestData(testDataset);
 		accuracyCheck.countCorrect();
 		ans = accuracyCheck.getAccuracy();
 		JOptionPane.showMessageDialog(contentPane, "Classifier has an accuracy of: " +ans );
@@ -374,7 +377,8 @@ public class GUI extends JFrame {
 			//passing the user inputed class to the naive bayes class if all radio buttons selected
 			if (complete != false)
 			{
-				NaiveBayes UserCase = new NaiveBayes(UserInputCase,current_file);
+				Dataset currentDataset = new Dataset(Control.getFile_in_use());
+				NaiveBayes UserCase = new NaiveBayes(UserInputCase,currentDataset);
 				int percentage = UserCase.getFinalValue();
 				JOptionPane.showMessageDialog(contentPane, "Probability of having COVID-19 is: "+percentage+ "%" );
 			}
@@ -382,14 +386,6 @@ public class GUI extends JFrame {
 			{
 				JOptionPane.showMessageDialog(contentPane, "Please select all radio buttons" );
 			}
-	}
-
-	public String getFilename() {
-		return filename;
-	}
-
-	public void setFilename(String filename) {
-		this.filename = filename;
 	}
 
 }
