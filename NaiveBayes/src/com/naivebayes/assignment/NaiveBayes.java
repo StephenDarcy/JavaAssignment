@@ -1,5 +1,14 @@
 package com.naivebayes.assignment;
 
+/********************************************************************************************************************************************
+ * Naive Bayes ML Assignment																												*
+ * Class: NaiveBayes																															*
+ * Description: Class that takes in 5 factors then counts how many times these same factors occured in the dataset vs how many times 	 	* 
+ * they didn't occur. This then calculates a percentage proababilty of having COVID-19 based on the passed symptoms. This is done using		*												
+ * several count methods, a classifier method and finally all these methods are passed into a Calculate() method							*	
+ * 																																			*																		
+ ********************************************************************************************************************************************/
+
 import java.util.ArrayList;
 
 //https://stackoverflow.com/questions/10059594/a-simple-explanation-of-naive-bayes-classification
@@ -34,49 +43,49 @@ public class NaiveBayes
 	//constructor for naivebayes class with no knowledge of case is positive or not
 	public NaiveBayes(Case input, Dataset file)
 	{
+		//setting the variables
 		this.setTemperature(input.getTemperature());
 		this.setAches(input.getAches());
 		this.setCough(input.getCough());
 		this.setDanger_zone(input.getDanger_zone());
 		this.setSore_throat(input.getSore_throat());
 		
-		
+		//converting the dataset
 		training_set = file.convertFile();
 		
+		//calculating the probability
 		Calculate();
 	}
 	
 	//constructor for naive bayes where an array list is passed instead of a dataset object
 	public NaiveBayes(Case input, ArrayList<Case> training_set_passed)
 	{
+		//setting the variables
 		this.setTemperature(input.getTemperature());
 		this.setAches(input.getAches());
 		this.setCough(input.getCough());
 		this.setDanger_zone(input.getDanger_zone());
 		this.setSore_throat(input.getSore_throat());
 		
+		//setting the training_set
 		training_set = training_set_passed;
 		
-		Calculate();
-		
+		//calculating the probability 
+		Calculate();	
 	}
-	
-	
-	public String toString()
-	{
-		String covid_chance = "Probability of testing positive for COVID-19: " + getPositive_probability();
-		return covid_chance;
-	}
-	
-	public void Classifier()
-	{
 		
+	public void Classifier() //method to calculate the chance of being COVID positive using the counts
+	{
+		// this calculates all the cases which match the factors and are positive
 		positive_total = (temperature_positive/total_positive)*(aches_positive/total_positive)*(sore_throat_positive/total_positive)*
 				(cough_positive/total_positive)*(danger_zone_positive/total_positive)*(total_positive/total_cases);
 		
+		//this calculates all the case which don't match the factors and are negative
 		negative_total = (temperature_negative/total_negative)*(aches_negative/total_negative)*(sore_throat_negative/total_negative)*
 				(cough_negative/total_negative)*(danger_zone_negative/total_negative)*(total_negative/total_cases);
 		
+		// this sets the positive probability to the positive total divided by the positive plus negative total. 
+		// it is the multiplied by 100 to make a percentage
 		setPositive_probability((positive_total/(positive_total+negative_total))*100);
 		
 		//changing to a integer that is rounded
@@ -84,6 +93,7 @@ public class NaiveBayes
 		
 	}
 	
+	// method that calls all the other methods
 	public void Calculate()
 	{
 		setTotal_cases(training_set.size());
@@ -98,11 +108,14 @@ public class NaiveBayes
 		Classifier();
 	}
 	
+	//method that counts all the people covid positive and covid negative
 	public void CovidCount()
 	{
+		//resetting variables
 		setTotal_positive(0);
 		setTotal_negative(0);
 		
+		//counting the totals 
 		for (int i = 0;i<training_set.size();i++)
 		{
 			boolean covid_true = training_set.get(i).getHas_covid().contains("yes");
@@ -121,9 +134,11 @@ public class NaiveBayes
 	//Method to count negative and positive results that had aches
 	public void AchesCount() 
 	{
+		//resetting variables
 		setAches_positive(0);
 		setAches_negative(0);
 		
+		//counting the totals 
 		for (int i = 0;i<training_set.size();i++)
 		{
 			boolean covid_true_aches = training_set.get(i).getHas_covid().contains("yes");
@@ -144,9 +159,11 @@ public class NaiveBayes
 	//method to count negative and positive results that had a cough
 	public void CoughCount() 
 	{
+		//resetting variables
 		setCough_positive(0);
 		setCough_negative(0);
 		
+		//counting the totals 
 		for (int i = 0;i<training_set.size();i++)
 		{
 			boolean covid_true_cough = training_set.get(i).getHas_covid().contains("yes");
@@ -167,9 +184,11 @@ public class NaiveBayes
 	//method to count negative and positive results that had a sore throat
 	public void SoreThroatCount() 
 	{
+		//resetting variables
 		setSore_throat_positive(0);
 		setSore_throat_negative(0);
 		
+		//counting the totals 
 		for (int i = 0;i<training_set.size();i++)
 		{
 			boolean sore_throat_true = training_set.get(i).getSore_throat().contains(sore_throat);
@@ -190,9 +209,11 @@ public class NaiveBayes
 	//method to count negative and positive results that had a temperature
 	public void TemperatureCount() 
 	{
+		//resetting variables
 		setTemperature_negative(0);
 		setTemperature_positive(0);
 		
+		//counting the totals 
 		for (int i = 0;i<training_set.size();i++)
 		{
 			boolean covid_true_temperature = training_set.get(i).getHas_covid().contains("yes");
@@ -213,9 +234,11 @@ public class NaiveBayes
 	//method to count negative and positive results that had travelled to a danger zone
 	public void DangerZoneCount() 
 	{
+		//resetting variables
 		setDanger_zone_positive(0);
 		setDanger_zone_negative(0);
 		
+		//counting the totals 
 		for (int i = 0;i<training_set.size();i++)
 		{
 			boolean covid_true_danger_zone = training_set.get(i).getHas_covid().contains("yes");

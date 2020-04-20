@@ -9,7 +9,7 @@ import java.util.Scanner;
  * Naive Bayes ML Assignment																																		
  * Class: Dataset
  * Description: This main purpose of this class is to return an ArrayList of Case objects using its convertFile() method. Much of this 
- * class is similar to the FileProccessor class 
+ * class is similar to the FileProccessor class we seen in our labs
  ********************************************************************************************************************************************/
 
 public class Dataset
